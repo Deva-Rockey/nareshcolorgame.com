@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Naresh Color Game Hack</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #1a1a1a;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      color: cyan;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #222;
+    }
+    .spinner {
+      font-size: 18px;
+      color: yellow;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: cyan;
+      color: black;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #444;
+      border-radius: 5px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Naresh Color Game Hack</h1>
+  <p>I am not Responsible if Anything Goes to Worng</p>
+
+  <div id="game">
+    <p>Enter Period <span id="period">1</span> Bcone Price:</p>
+    <input type="number" id="priceInput" placeholder="Enter Bcone Price">
+    <br>
+    <button onclick="startGame()">Submit</button>
+  </div>
+
+  <div class="output hidden" id="output"></div>
+
+  <script>
+    let period = 1; // Start at period 1
+    const maxRounds = 11; // Maximum rounds allowed
+    const numbers = []; // To store user inputs
+
+    // Function to calculate the sum of digits
+    const getSum = (n) => {
+      return n
+        .toString()
+        .split('')
+        .reduce((sum, digit) => sum + parseInt(digit, 10), 0);
+    };
+
+    // Spinner Animation
+    const animate = (message, duration = 2000) => {
+      return new Promise((resolve) => {
+        const spinner = ['|', '/', '-', '\\'];
+        let i = 0;
+        const spinnerElement = document.createElement('div');
+        spinnerElement.className = 'spinner';
+        spinnerElement.textContent = message + ' ' + spinner[i];
+        document.getElementById('output').appendChild(spinnerElement);
+
+        const interval = setInterval(() => {
+          spinnerElement.textContent = message + ' ' + spinner[i++];
+          i %= spinner.length;
+        }, 100);
+
+        setTimeout(() => {
+          clearInterval(interval);
+          spinnerElement.remove();
+          resolve();
+        }, duration);
+      });
+    };
+
+    // Main Game Logic
+    async function startGame() {
+      const priceInput = document.getElementById('priceInput');
+      const output = document.getElementById('output');
+      const currentPrice = parseInt(priceInput.value, 10);
+
+      if (isNaN(currentPrice) || currentPrice <= 0) {
+        alert('Please enter a valid positive number.');
+        return;
+      }
+
+      // Clear previous output and disable input
+      output.innerHTML = '';
+      output.classList.remove('hidden');
+      priceInput.value = '';
+
+      // Simulate animations
+      await animate('Hacking into the Bcone server for the next color...');
+      output.innerHTML += '<p style="color: green;">Successfully hacked the server!</p>';
+      await animate('Getting the color, please wait...');
+      output.innerHTML += '<p style="color: green;">Successfully retrieved the color!</p>';
+
+      // Calculate color logic
+      const sum = getSum(currentPrice);
+      const color = sum % 2 === 0 ? '🔴 RED' : '🟢 GREEN';
+
+      // Display result
+      output.innerHTML += `<p>Period ${period + 1}: <strong>${color}</strong></p>`;
+
+      // Update period and store input
+      period++;
+      numbers.push(currentPrice);
+
+      // Check if game should end
+      if (numbers.length >= maxRounds) {
+        alert('Thank you for playing! Please come back later.');
+        resetGame();
+      } else {
+        document.getElementById('period').textContent = period;
+      }
+    }
+
+    // Reset the Game
+    function resetGame() {
+      period = 1;
+      numbers.length = 0;
+      document.getElementById('period').textContent = period;
+      document.getElementById('output').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
